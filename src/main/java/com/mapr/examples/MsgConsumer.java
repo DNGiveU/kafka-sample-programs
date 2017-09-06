@@ -39,7 +39,6 @@ public class MsgConsumer {
         }
         consumer.subscribe(Arrays.asList("TOPIC_TEST"));
         int timeouts = 0;
-        //noinspection InfiniteLoopStatement
         while (true) {
             // read records with a short timeout. If we time out, we don't really care.
             ConsumerRecords<String, String> records = consumer.poll(200);
@@ -50,16 +49,12 @@ public class MsgConsumer {
                 timeouts = 0;
             }
             for (ConsumerRecord<String, String> record : records) {
-                switch (record.topic()) {
-                    case "TOPIC_TEST":
-                        // the send time is encoded inside the message
-                        JsonNode msg = mapper.readTree(record.value());
-                        System.out.println(msg);
-                        break;
-                    default:
-                        throw new IllegalStateException("Shouldn't be possible to get message on topic " + record.topic());
-                }
+                // the send time is encoded inside the message
+                JsonNode msg = mapper.readTree(record.value());
+                System.out.println(msg);
+                break;
             }
         }
     }
 }
+
