@@ -20,7 +20,7 @@ import java.util.Random;
  * <p/>
  * Whenever a message is received on "slow-messages", the stats are dumped.
  */
-public class Consumer {
+public class MsgConsumer {
     public static void main(String[] args) throws IOException {
         // set up house-keeping
         ObjectMapper mapper = new ObjectMapper();
@@ -54,31 +54,7 @@ public class Consumer {
                     case "TOPIC_TEST":
                         // the send time is encoded inside the message
                         JsonNode msg = mapper.readTree(record.value());
-                        switch (msg.get("type").asText()) {
-                            case "test":
-                                long latency = (long) ((System.nanoTime() * 1e-9 - msg.get("t").asDouble()) * 1000);
-                                stats.recordValue(latency);
-                                global.recordValue(latency);
-                                break;
-                            case "marker":
-                                // whenever we get a marker message, we should dump out the stats
-                                // note that the number of fast messages won't necessarily be quite constant
-                                System.out.printf("%d messages received in period, latency(min, max, avg, 99%%) = %d, %d, %.1f, %d (ms)\n",
-                                        stats.getTotalCount(),
-                                        stats.getValueAtPercentile(0), stats.getValueAtPercentile(100),
-                                        stats.getMean(), stats.getValueAtPercentile(99));
-                                System.out.printf("%d messages received overall, latency(min, max, avg, 99%%) = %d, %d, %.1f, %d (ms)\n",
-                                        global.getTotalCount(),
-                                        global.getValueAtPercentile(0), global.getValueAtPercentile(100),
-                                        global.getMean(), global.getValueAtPercentile(99));
-
-                                stats.reset();
-                                break;
-                            default:
-                                throw new IllegalArgumentException("Illegal message type: " + msg.get("type"));
-                        }
-                        break;
-                    case "summary-markers":
+                        System.out.println(msg);
                         break;
                     default:
                         throw new IllegalStateException("Shouldn't be possible to get message on topic " + record.topic());

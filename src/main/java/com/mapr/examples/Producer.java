@@ -25,10 +25,10 @@ public class Producer {
         }
 
         try {
-            for (int i = 0; i < 1000000; i++) {
+            for (int i = 0; i < 10; i++) {
                 // send lots of messages
                 producer.send(new ProducerRecord<String, String>(
-                        "fast-messages",
+                        "SMS_DISTRIBUTE_ASYN_SEND",
                         String.format("{\"type\":\"test\", \"t\":%.3f, \"k\":%d}", System.nanoTime() * 1e-9, i)));
 
                 // every so often send to a different topic
