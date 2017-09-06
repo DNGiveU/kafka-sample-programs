@@ -47,7 +47,7 @@
                 <configuration>
                     <archive>
                         <manifest>
-                            <mainClass>com.mapr.examples.Run</mainClass>
+                            <mainClass>com.mapr.examples.RunKafka</mainClass>
                         </manifest>
                     </archive>
                     <descriptorRefs>
