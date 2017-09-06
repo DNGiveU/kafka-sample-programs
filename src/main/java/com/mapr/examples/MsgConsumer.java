@@ -3,7 +3,6 @@ package com.mapr.examples;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.common.io.Resources;
-import org.HdrHistogram.Histogram;
 import org.apache.kafka.clients.consumer.ConsumerRecord;
 import org.apache.kafka.clients.consumer.ConsumerRecords;
 import org.apache.kafka.clients.consumer.KafkaConsumer;
@@ -24,9 +23,6 @@ public class MsgConsumer {
     public static void main(String[] args) throws IOException {
         // set up house-keeping
         ObjectMapper mapper = new ObjectMapper();
-        Histogram stats = new Histogram(1, 10000000, 2);
-        Histogram global = new Histogram(1, 10000000, 2);
-
         // and the consumer
         KafkaConsumer<String, String> consumer;
         try (InputStream props = Resources.getResource("consumer.props").openStream()) {

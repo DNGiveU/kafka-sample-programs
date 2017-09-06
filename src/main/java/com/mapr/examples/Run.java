@@ -18,6 +18,9 @@ public class Run {
             case "consumer":
                 Consumer.main(args);
                 break;
+            case "MsgConsumer":
+                MsgConsumer.main(args);
+                break;
             default:
                 throw new IllegalArgumentException("Don't know how to do " + args[0]);
         }
